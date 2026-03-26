@@ -1,0 +1,1 @@
+python mandala_v3.py --source mandala.png --stamps 500 --rounds 25 --output finished.png --affirmations test.txt

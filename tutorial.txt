@@ -1,0 +1,158 @@
+====================================================
+  MANDALA AFFIRMATION OVERLAY GENERATOR
+  Usage Guide — mandala_v3.py
+====================================================
+
+OVERVIEW
+--------
+This script embeds affirmation repetitions into an image using
+layered alpha blending and exponential doubling. Your mandala
+is placed fully opaque on top — looks identical to the original.
+The intention field is invisible but embedded in the pixel data.
+
+
+HOW IT WORKS
+------------
+1. Pre-renders 10 text tiles at different angles (0, 30, 45, 60,
+   90, 120, 135, 150, -45, -30 degrees) to saturate all directions.
+
+2. Stamps tiles onto canvas at low opacity (default 0.06) for
+   however many stamps you specify.
+
+3. Exponential doubling — canvas composited onto itself N times.
+   Each round doubles the rep count:
+     Round 5  = ~1 billion
+     Round 10 = ~32 billion
+     Round 15 = ~1 trillion
+     Round 25 = ~1 quadrillion
+
+4. Your mandala placed on top at 100% opacity — fully visible,
+   text field completely hidden underneath.
+
+
+REQUIREMENTS
+------------
+Python 3 + Pillow + NumPy
+
+Install with:
+  pip install Pillow numpy
+
+
+BASIC USAGE
+-----------
+Run from the folder containing mandala_v3.py:
+
+  python mandala_v3.py --source your_mandala.png --output charged.png
+
+This uses all default settings:
+  - 1000 stamps
+  - 25 doubling rounds (~1 quadrillion reps)
+  - Font size 7
+  - 4096x4096 output
+
+
+ALL OPTIONS
+-----------
+--source        Path to your mandala/source image (required for
+                mandala overlay, optional for raw text field)
+
+--output        Output filename (default: mandala_charged.png)
+
+--size          Output image size in pixels, square
+                (default: 4096)
+
+--stamps        Number of stamp passes (default: 1000)
+                More stamps = denser base layer before doubling
+                Saturation hit around 200-500 stamps
+
+--rounds        Doubling rounds (default: 25)
+                25 = ~1 quadrillion reps
+                50 = ~10^30 reps (beyond named numbers)
+
+--stamp-opacity Opacity per stamp pass (default: 0.06)
+                Lower = subtler per pass, more passes needed
+                Higher = faster saturation
+
+--font-size     Text size for affirmations (default: 7)
+                Smaller = more text packed per layer
+                7 is recommended for maximum density
+
+--affirmations  Path to a .txt file with custom affirmations
+                One intention per line
+                If not set, uses the 20 built-in affirmations
+
+
+EXAMPLE COMMANDS
+----------------
+
+# Quick test (fast, low reps):
+python mandala_v3.py --source mandala.png --stamps 200 --rounds 2 --output test.png
+
+# Standard run (~1 quadrillion):
+python mandala_v3.py --source mandala.png --stamps 1000 --rounds 25 --output charged.png
+
+# Maximum density (smaller font, more stamps):
+python mandala_v3.py --source mandala.png --stamps 1000 --rounds 25 --font-size 5 --output max.png
+
+# Custom affirmations:
+python mandala_v3.py --source mandala.png --affirmations my_intentions.txt --output servitor.png
+
+# No source image (raw text field only):
+python mandala_v3.py --stamps 500 --rounds 25 --output textfield.png
+
+
+CUSTOM AFFIRMATIONS FILE
+------------------------
+Create a plain .txt file, one intention per line. Example:
+
+  [my_intentions.txt]
+  I AM powerful and focused
+  My servitor carries out my will perfectly
+  All intentions manifest with speed and precision
+  I AM the master of my energy field
+
+Then run:
+  python mandala_v3.py --source mandala.png --affirmations my_intentions.txt --output charged.png
+
+
+REP COUNT REFERENCE
+-------------------
+200 stamps,  2 rounds  = ~1.8 million
+200 stamps, 10 rounds  = ~94 million
+1000 stamps, 15 rounds = ~1 trillion
+1000 stamps, 25 rounds = ~1 quadrillion
+1000 stamps, 50 rounds = ~10^30 (beyond named numbers)
+
+Note: Pixel saturation is reached around 200-500 stamps.
+Beyond that, doubling rounds fold the saturated field back
+on itself. The sweet spot is 200-500 stamps + 25 rounds.
+
+
+TIMING REFERENCE (4096x4096)
+-----------------------------
+200 stamps  + 2 rounds  = ~40 seconds
+200 stamps  + 25 rounds = ~50 seconds
+1000 stamps + 25 rounds = ~90 seconds
+
+
+OUTPUT FILE
+-----------
+The PNG metadata contains:
+  - RepetitionCount  (e.g. 1.0000e+15)
+  - DoublingRounds
+  - Affirmations list
+  - Intent statement
+
+Viewable with any EXIF/metadata reader.
+
+
+NOTES
+-----
+- The mandala overlay is fully opaque — output looks
+  identical to your original mandala image
+- Works with PNG and JPG source images
+- Output is always PNG for lossless quality
+- Script runs on CPU — no GPU required
+- Tested on Windows, Mac, Linux
+
+====================================================
