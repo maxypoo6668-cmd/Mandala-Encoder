@@ -23,5 +23,5 @@ The field travels with the file.
 
 ----
 
-Tool created by anthroheart.
-Technique inspired by the radionics community.
+Tool inspired by anthroheart and reden.
+Technique by the radionics community.
