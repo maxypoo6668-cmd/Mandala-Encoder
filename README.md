@@ -21,6 +21,8 @@ You can use the charged image as a wallpaper, print it, place
 it on an altar, run it through a radionics device, or share it.
 The field travels with the file.
 
+Look at tutorial.txt for help using it.
+
 ----
 
 Tool inspired by anthroheart and reden.
